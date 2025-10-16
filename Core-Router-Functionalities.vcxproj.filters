@@ -24,12 +24,24 @@
     <ClCompile Include="Packets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RouterEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoutingTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="qoservice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Packets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RouterEntry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoutingTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -125,11 +125,15 @@
   <ItemGroup>
     <ClCompile Include="Packets.cpp" />
     <ClCompile Include="qoservice.cpp" />
+    <ClCompile Include="RouterEntry.cpp" />
+    <ClCompile Include="RoutingTable.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Packets.h" />
     <ClInclude Include="qoservice.h" />
+    <ClInclude Include="RouterEntry.h" />
+    <ClInclude Include="RoutingTable.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="file.txt" />

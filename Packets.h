@@ -14,15 +14,15 @@ private:
 
 public:
 	packets();
-	packets(int id, std::string source, std::string destination, int port, int TTL);
+	packets(int id, const std::string&  source, const std::string&  destination, int port, int TTL);
 
-	int getId();
-	std::string getSource();
-	std::string getDestination();
-	int getPort();
-	int getTTL();
+	int getId() const;
+	std::string getSource() const;
+	std::string getDestination() const;
+	int getPort() const;
+	int getTTL() const;
 
-	void setPriority(std::string priority);
+	void setPriority(const std::string& priority);
 	void decrementTTL();
 	void setTTL(int TTL);
 	void display();

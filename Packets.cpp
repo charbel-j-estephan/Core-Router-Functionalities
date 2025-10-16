@@ -9,7 +9,7 @@ packets::packets() {
 	this->TTL = 0;
 	priority = "";
 }
-packets::packets(int id, string source, string destination, int port, int TTL) {
+packets::packets(int id, const string& source, const string& destination, int port, int TTL) {
 	this->id = id;
 	this->source = source;
 	this->destination = destination;
@@ -18,27 +18,27 @@ packets::packets(int id, string source, string destination, int port, int TTL) {
 	priority = "";
 }
 
-int packets::getId() {
+int packets::getId() const {
 	return id;
 }
-string packets::getSource() {
+string packets::getSource() const {
 	return source;
 }
 
-string packets::getDestination() {
+string packets::getDestination() const {
 	return destination;
 }
 
-int packets::getPort() {
+int packets::getPort() const {
 	return port;
 }
 
-int packets::getTTL() {
+int packets::getTTL() const {
 	return TTL;
 }
 
 
-void packets::setPriority(string priority) {
+void packets::setPriority(const string &priority) {
 	this->priority = priority;
 }
 
