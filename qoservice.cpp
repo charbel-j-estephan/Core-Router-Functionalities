@@ -5,8 +5,8 @@
 #include <vector>
 using namespace std;
 
-QoService::QoService(int maxSize) : highCount(0), mediumCount(0), lowCount(0), maxQueueSize(maxSize), forwardedStatus(false) {
-    cout << "QoService initialized with max queue size = " << maxQueueSize << endl;
+QoService::QoService(int maxSize)
+    : highCount(0), mediumCount(0), lowCount(0), maxQueueSize(maxSize), forwardedStatus(false) {
 }
 
 vector<packets> QoService::readPacketsFromFile(const string& filename) {
@@ -14,22 +14,19 @@ vector<packets> QoService::readPacketsFromFile(const string& filename) {
     ifstream file(filename);
 
     if (!file.is_open()) {
-        cout << "Error: Unable to open file " << filename << endl;
+        cout << "Error: Cannot open file " << filename << endl;
         return packetList;
     }
 
     string line;
-    // Skip header line if present
-    getline(file, line);
+    getline(file, line); // Skip header
 
     while (getline(file, line)) {
         stringstream ss(line);
         string token;
         vector<string> tokens;
 
-        // Parse comma-separated values
         while (getline(ss, token, ',')) {
-            // Trim whitespace
             size_t start = token.find_first_not_of(" \t\r\n");
             size_t end = token.find_last_not_of(" \t\r\n");
             if (start != string::npos && end != string::npos) {
@@ -43,7 +40,6 @@ vector<packets> QoService::readPacketsFromFile(const string& filename) {
             }
         }
 
-        // Create packet from parsed data
         if (tokens.size() >= 5) {
             int id = stoi(tokens[0]);
             string source = tokens[1];
@@ -57,7 +53,7 @@ vector<packets> QoService::readPacketsFromFile(const string& filename) {
     }
 
     file.close();
-    cout << "Successfully read " << packetList.size() << " packets from file." << endl;
+    cout << "Loaded " << packetList.size() << " packets" << endl;
     return packetList;
 }
 
@@ -66,47 +62,31 @@ void QoService::classifyPackets(const vector<packets>& packetVec) {
         packets packet = packetVec[i];
         int port = packet.getPort();
 
-        // Classification rules based on port ranges
         if (port >= 0 && port <= 1023) {
-            // Well-known ports - High priority
             packet.setPriority("High");
             if (highCount < maxQueueSize) {
                 highPriorityQueue.push(packet);
                 highCount++;
             }
-            else {
-                cout << "High priority queue full! Packet ID " << packet.getId() << " dropped." << endl;
-            }
         }
         else if (port >= 1024 && port <= 49151) {
-            // Registered ports - Medium priority
-            packet.setPriority("medium");
+            packet.setPriority("Medium");
             if (mediumCount < maxQueueSize) {
                 mediumPriorityQueue.push(packet);
                 mediumCount++;
             }
-            else {
-                cout << "Medium priority queue full! Packet ID " << packet.getId() << " dropped." << endl;
-            }
         }
         else {
-            // Dynamic/Private ports - Low priority
             packet.setPriority("Low");
             if (lowCount < maxQueueSize) {
                 lowPriorityQueue.push(packet);
                 lowCount++;
             }
-            else {
-                cout << "Low priority queue full! Packet ID " << packet.getId() << " dropped." << endl;
-            }
         }
     }
-
-    cout << "Packets classified and enqueued." << endl;
 }
 
 packets QoService::getNextPacket() {
-    // Priority order: High > Medium > Low
     if (!highPriorityQueue.empty() && highCount > 0) {
         packets packet = highPriorityQueue.front();
         highPriorityQueue.pop();
@@ -126,25 +106,20 @@ packets QoService::getNextPacket() {
         return packet;
     }
 
-    // Return empty packet if all queues are empty
     return packets();
 }
 
 void QoService::forwardOrDrop() {
-    cout << "\n Processing Packets" << endl;
-
     int forwarded = 0;
     int dropped = 0;
 
     while (!allQueuesEmpty()) {
         packets packet = getNextPacket();
 
-        // Check if packet is valid (not default constructed)
         if (packet.getId() == 0) {
             break;
         }
 
-        // Decrement TTL before checking
         packet.decrementTTL();
 
         if (packet.getTTL() > 0) {
@@ -154,15 +129,13 @@ void QoService::forwardOrDrop() {
             forwarded++;
         }
         else {
-            cout << "DROPPED (TTL expired): Packet ID " << packet.getId() << endl;
+            cout << "DROPPED: Packet " << packet.getId() << " (TTL expired)" << endl;
             setForwardedStatus(false);
             dropped++;
         }
     }
 
-    cout << "\n Processing Completed" << endl;
-    cout << "Total forwarded: " << forwarded << endl;
-    cout << "Total dropped: " << dropped << endl;
+    cout << "Forwarded: " << forwarded << ", Dropped: " << dropped << endl;
 }
 
 bool QoService::allQueuesEmpty() const {
@@ -170,11 +143,11 @@ bool QoService::allQueuesEmpty() const {
 }
 
 void QoService::displayQueueStatus() const {
-    cout << "\nQueue Status" << endl;
-    cout << "High Priority Queue: " << highCount << "/" << maxQueueSize << endl;
-    cout << "Medium Priority Queue: " << mediumCount << "/" << maxQueueSize << endl;
-    cout << "Low Priority Queue: " << lowCount << "/" << maxQueueSize << endl;
+    cout << "Queue Status - High:" << highCount
+        << " Medium:" << mediumCount
+        << " Low:" << lowCount << endl;
 }
+
 void QoService::setForwardedStatus(bool ft) {
     forwardedStatus = ft;
 }

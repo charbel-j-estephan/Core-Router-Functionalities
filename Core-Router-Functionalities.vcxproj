@@ -123,17 +123,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PacketHistory.cpp" />
     <ClCompile Include="Packets.cpp" />
     <ClCompile Include="qoservice.cpp" />
+    <ClCompile Include="RouterDriver.cpp" />
     <ClCompile Include="RouterEntry.cpp" />
     <ClCompile Include="RoutingTable.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="TraceEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PacketHistory.h" />
     <ClInclude Include="Packets.h" />
     <ClInclude Include="qoservice.h" />
+    <ClInclude Include="RouterDriver.h" />
     <ClInclude Include="RouterEntry.h" />
     <ClInclude Include="RoutingTable.h" />
+    <ClInclude Include="TraceEntry.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="file.txt" />
